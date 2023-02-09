@@ -1,0 +1,187 @@
+---
+title: "statsForAim3"
+output: html_document
+date: "2022-12-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load required R packages 
+library(readxl)
+library(tidyverse)
+library(rstatix)
+library(ggpubr)
+
+
+# Loading the slip MTU, MG, and AT excursion lengths
+setwd("C:/GitHub/Perception-Project/Dan/USPercep Analysis/Analysis/")
+Slipsdata<- read_excel("DataFormatForStats_US2(DJL).xlsx", sheet = "AvgSlips") %>%
+	as_tibble()
+Slipsdata %>%
+
+
+
+# Putting data in long format for the multiple comparisons 
+Slipsdata.long <- Slipsdata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+Slipsdata.long %>% sample_n(6)
+
+
+
+
+# Running stats for MTU, MG, and AT excursion Slips
+statSlips.test <- Slipsdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+statSlips.test
+
+```{r statSlips.test}
+print.data.frame(head(statSlips.test))
+```
+
+
+# Loading the Trip Peak PID MTU, MG, and AT excursion lengths
+setwd("C:/GitHub/Perception-Project/Dan/USPercep Analysis/Analysis/")
+pSlipsdata <- read_excel("DataFormatForStats_US2(DJL).xlsx", sheet = "PeakSlips") %>%
+	as_tibble()
+pSlipsdata %>%
+
+
+
+# Putting data in long format for the multiple comparisons 
+pSlipsdata.long <- pSlipsdata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+pSlipsdata.long %>% sample_n(6)
+
+
+
+
+# Running stats for MTU, MG, and AT excursion trips
+statpSlips.test <- pSlipsdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+statpSlips.test
+
+```{r statpSlips.test}
+print.data.frame(head(statpSlips.test))
+```
+
+# Loading the Trip Peak PID MTU, MG, and AT excursion lengths
+setwd("C:/GitHub/Perception-Project/Dan/USPercep Analysis/Analysis/")
+tSlipsdata <- read_excel("DataFormatForStats_US2(DJL).xlsx", sheet = "TimeSlips") %>%
+	as_tibble()
+tSlipsdata %>%
+
+
+
+# Putting data in long format for the multiple comparisons 
+tSlipsdata.long <- tSlipsdata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+tSlipsdata.long %>% sample_n(6)
+
+
+
+
+# Running stats for MTU, MG, and AT excursion trips
+stattSlips.test <- tSlipsdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+stattSlips.test
+
+```{r stattSlips.test}
+print.data.frame(head(stattSlips.test))
+```
+
+# Loading the Trip average PID MTU, MG, and AT excursion lengths
+setwd("C:/GitHub/Perception-Project/Dan/USPercep Analysis/Analysis/")
+Tripsdata <- read_excel("DataFormatForStats_US2(DJL).xlsx", sheet = "AvgTrips") %>%
+	as_tibble()
+Tripsdata %>%
+
+
+
+# Putting data in long format for the multiple comparisons 
+Tripsdata.long <- Tripsdata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+Tripsdata.long %>% sample_n(6)
+
+
+
+
+# Running stats for MTU, MG, and AT excursion Slips
+statTrips.test <- Tripsdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+statTrips.test
+
+```{r statTrips.test}
+print.data.frame(head(statTrips.test))
+```
+
+
+
+# Loading the Trip Peak PID MTU, MG, and AT excursion lengths
+setwd("C:/GitHub/Perception-Project/Dan/USPercep Analysis/Analysis/")
+pTripsdata <- read_excel("DataFormatForStats_US2(DJL).xlsx", sheet = "PeakTrips") %>%
+	as_tibble()
+pTripsdata %>%
+
+
+
+# Putting data in long format for the multiple comparisons 
+pTripsdata.long <- pTripsdata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+pTripsdata.long %>% sample_n(6)
+
+
+
+
+# Running stats for MTU, MG, and AT excursion trips
+statpTrips.test <- pTripsdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+statpTrips.test
+
+```{r statpTrips.test}
+print.data.frame(head(statpTrips.test))
+```
+
+# Loading the Trip Peak PID MTU, MG, and AT excursion lengths
+setwd("C:/GitHub/Perception-Project/Dan/USPercep Analysis/Analysis/")
+tTripsdata <- read_excel("DataFormatForStats_US2(DJL).xlsx", sheet = "TimeTrips") %>%
+	as_tibble()
+tTripsdata %>%
+
+
+
+# Putting data in long format for the multiple comparisons 
+tTripsdata.long <- tTripsdata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+tTripsdata.long %>% sample_n(6)
+
+
+
+
+# Running stats for MTU, MG, and AT excursion trips
+stattTrips.test <- tTripsdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+stattTrips.test
+
+```{r stattTrips.test}
+print.data.frame(head(stattTrips.test))
+```

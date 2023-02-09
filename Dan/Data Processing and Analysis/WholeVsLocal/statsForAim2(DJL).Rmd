@@ -1,0 +1,104 @@
+---
+title: "statsForAim2"
+output:
+  pdf_document: default
+  html_document: default
+date: "2022-12-01"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load required R packages 
+library(readxl)
+library(tidyverse)
+library(rstatix)
+library(ggpubr)
+
+# Prepare the data and inspect a random sample of the data
+setwd("C:/GitHub/Perception-Project/Dan/Data Processing and Analysis/WholeVsLocal/")
+Wdata<- read_excel("DataFormatForR_WholeVLocal.xlsx", sheet = "Whole Avg ES Full GC") %>%
+	as_tibble()
+Wdata %>%
+
+
+# Pulling out sections of WBAM, COM
+WBAMdata <- Wdata %>%
+  select(1:3,13)
+WBAMdata %>%
+
+CoMData <- Wdata %>%
+  select(4:13)
+CoMData %>%
+
+
+# Putting data in long format for the multiple comparisons 
+WBAMdata.long <- WBAMdata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+WBAMdata.long %>% sample_n(6)
+
+
+CoMData.long <- CoMData %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+CoMData.long %>% sample_n(6)
+
+
+# Running stats for WBAM
+statWBAM.test <- WBAMdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+statWBAM.test
+
+
+
+```{r statWBAM.test}
+print.data.frame(head(statWBAM.test))
+```
+
+# Running stats for WBAM
+statCoM.test <- CoMData.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+statCoM.test
+
+
+```{r statCoM.test}
+print.data.frame(statCoM.test)
+```
+
+
+
+
+# Loading the local sensory data for stats
+setwd("C:/GitHub/Perception-Project/Dan/Data Processing and Analysis/WholeVsLocal/")
+Ldata<- read_excel("DataFormatForR_WholeVLocal.xlsx", sheet = "Local Avg ES Full GC") %>%
+	as_tibble()
+Ldata %>%
+
+
+
+# Putting data in long format for the multiple comparisons 
+Localdata.long <- Ldata %>%
+  pivot_longer(-Perceived, names_to = "variables", values_to = "value")
+Localdata.long %>% sample_n(6)
+
+
+
+
+# Running stats for Local
+statLocal.test <- Localdata.long %>%
+  group_by(variables) %>%
+  wilcox_test(value ~ Perceived, alternative = "less") %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance()
+statLocal.test
+
+
+```{r statLocal.test}
+print.data.frame(statLocal.test)
+```
